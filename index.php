@@ -222,7 +222,10 @@ foreach ( $data as $src ) {
 echo "</div>\n";
 
 // close html
-echo "<footer>Copyleft (c) 2020, Nicholas Christopoulos<br>Version 1.1</footer>\n";
+echo "<footer>\n";
+echo "\tCopyleft (c) 2020, Nicholas Christopoulos<br>\n\tVersion 1.2 - License GPL v3+<br>\n";
+echo "\t<a href='https://github.com/nereusx/php-news-page'>Project page: https://github.com/nereusx/php-news-page</a>\n";
+echo "</footer>\n";
 echo "</body>\n", "</html>\n";
 ?>
 
