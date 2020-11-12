@@ -4,7 +4,7 @@
 setlocale(LC_ALL, "el_GR.UTF8");
 error_reporting(E_ERROR | E_PARSE);
 define("SEC_PER_DAY", 86400);	// seconds per day
-define("MAX_TIME", SEC_PER_DAY * 4); // older post (max: 4 days old)
+define("MAX_TIME", SEC_PER_DAY * 2); // older post (max: 2 days old)
 define("INVALIDATE_CACHE", 60 * 30); // when to refresh cache (every 30mins on user request)
 $feeds = load_feeds();
 $data  = array();
@@ -50,6 +50,9 @@ function to_date($d) {
 	}
 
 // --- main ---
+$msg_wait = "Loading, please wait...";
+if ( !valid_cache() )
+	$msg_wait = "Rebuilding cache, please wait...";
 
 if ( valid_cache() ) // too soon ?
 	$data = load_cache();
@@ -156,6 +159,11 @@ echo <<<'EOT'
 	a.news-more:link, a.news-more:active, a.news-more:visited { color: #cc6600; }
 	div.news-content { font-size: 1.0rem; border: 1px solid black; padding: 1rem; }
 	button { font-family: Verdana, Roboto, sans-serif; }
+	div.wait-msg {
+		border: 6px solid black;
+		padding: 2rem;
+		text-align: center;
+		}
 	</style>
 
 	<script type="text/javascript" src="/lib/jquery.min.js"></script>
@@ -190,10 +198,12 @@ echo <<<'EOT'
 <body lang="el" class="hyp">
 
 <!-- Message: Please wait -->
-<div id="wait-msg" style="font-size:largest;">
-	<h1>Loading, please wait...</h1>
-</div>
+
+EOT;
+
+echo "<div class=\"wait-msg\" id=\"wait-msg\"><h1>", $msg_wait, "</h1></div>\n";
 		  
+echo <<<'EOT'
 <!-- load & enable hyphenation -->
 <script src="/lib/Hyphenopoly_Loader.js"></script>
 
@@ -207,8 +217,11 @@ EOT;
 
 // print the news
 echo "<div class='news'>\n";
-$msg_to_site = "Περισσότερα στο site...";
-$msg_more_text = "Εμφάνιση όλου του κειμένου";
+$msg_to_site = "Περισσότερα στο site...";		// jump to the site
+$msg_more_text = "Εμφάνιση όλου του κειμένου";	// view additional contents
+$source_text = "Πηγή";							// the word 'source'
+$btn_gotosite = "...";
+$btn_viewcontent = "⇵";
 $id = 1;
 foreach ( $data as $src ) {
 	list($pdate, $title, $descr, $imgsrc, $content, $elink, $servname, $serv) = $src;
@@ -222,11 +235,11 @@ foreach ( $data as $src ) {
 		echo "\t<div hidden id='news-content-", $id, "' class='news-content'>\n", $content, "\n\t</div>\n";
 	echo "\t<div class='news-footer'>\n";
 	echo "\t<table width='100%'>\n";
-	echo "\t\t<tr><td><b>Πηγή:</b> ", $servname, "\n";
+	echo "\t\t<tr><td><b>", $source_text, ":</b> ", $servname, "\n";
 	echo "\t\t<td align='right'>\n";
 	if ( strlen($content) )
-		echo "\t\t<button title='", $msg_more_text, "' onclick='showExtraContent(", $id ,")'>⇵</button>\n";
-	echo "\t\t<button title='", $msg_to_site, "' onclick=\"window.open('", $elink, "','_blank');\">≫</button>\n";
+		echo "\t\t<button title='", $msg_more_text, "' onclick='showExtraContent(", $id ,")'>", $btn_viewcontent, "</button>\n";
+	echo "\t\t<button title='", $msg_to_site, "' onclick=\"window.open('", $elink, "','_blank');\">", $btn_gotosite, "</button>\n";
 	echo "\t</table>\n\t</div>\n";
 	echo "</div>\n";
 	$id = $id + 1;
