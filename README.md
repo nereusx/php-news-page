@@ -6,4 +6,4 @@ This is a web-page without per user options.
 https://nicholas-christopoulos.dev/news/
 
 # screenshot
-[#1](https://raw.githubusercontent.com/nereusx/php-news-page/main/screenshots/ss-news-1.png)
+![#1](https://raw.githubusercontent.com/nereusx/php-news-page/main/screenshots/ss-news-1.png)
