@@ -7,7 +7,6 @@ define("SEC_PER_DAY", 86400);	// seconds per day
 define("MAX_TIME", SEC_PER_DAY * 2); // older post (max: 2 days old)
 define("INVALIDATE_CACHE", 60 * 30); // when to refresh cache (every 30mins on user request)
 $feeds = load_feeds();
-$data  = array();
 
 // --- library ---
 function save_cache($data) {
@@ -54,53 +53,9 @@ $msg_wait = "Loading, please wait...";
 if ( !valid_cache() )
 	$msg_wait = "Rebuilding cache, please wait...";
 
-if ( valid_cache() ) // too soon ?
-	$data = load_cache();
-else {
-	// read feeds and store to $data
-	$now = time();
-	foreach ( $feeds as $src ) {
-		list($servname, $serv) = $src;
-		if ( strlen($serv) ) {
-			$feed = simplexml_load_file($serv);
-		
-			if ( $feed === FALSE ) {
-				// handle error here
-				continue;
-				}
-			else {
-				foreach ( $feed->channel->item as $item ) {
-					$title = trim((string) $item->title);
-					$descr = trim((string) $item->description);
-					$elink = (string) $item->link;
-					$pdate = strtotime((string) $item->pubDate);
-					$guid  = (string) $item->guid;
-					$content = "";
-					if ( $e_content = $item->children("content", true) )
-						$content = (string) $e_content->encoded; 
-					$imgsrc = "";
-					if ( $media = $item->children("media", true) ) {
-						if ( $media->content->thumbnail ) {
-							$attributes = $media->content->thumbnail->attributes();
-							$imgsrc     = (string) $attributes['url'];
-							}
-						}
-					if ( $pdate > $now - MAX_TIME )
-						array_push($data,
-							array($pdate, $title, $descr, $imgsrc, $content, $elink, $servname, $serv));
-					}
-				}
-			}
-		}
-	
-	// sort news by date
-	usort($data, "pdate_sortcb");
-	
-	// store to avoid refreshing every time
-	save_cache($data);
-	}
-
-// print HTML headers
+//
+//	start writting HTML
+//
 echo <<<'EOT'
 <!DOCTYPE html>
 <html>
@@ -213,9 +168,63 @@ echo <<<'EOT'
 <h1>NDC RSS READER</h1>
 </header>
 
+<a name="top"></a>
+
 EOT;
 
-// print the news
+//
+//	build the news array
+//
+$data = array();
+if ( valid_cache() ) // too soon ?
+	$data = load_cache();
+else {
+	// read feeds and store to $data
+	$now = time();
+	foreach ( $feeds as $src ) {
+		list($servname, $serv) = $src;
+		if ( strlen($serv) ) {
+			$feed = simplexml_load_file($serv);
+		
+			if ( $feed === FALSE ) {
+				// handle error here
+				continue;
+				}
+			else {
+				foreach ( $feed->channel->item as $item ) {
+					$title = trim((string) $item->title);
+					$descr = trim((string) $item->description);
+					$elink = (string) $item->link;
+					$pdate = strtotime((string) $item->pubDate);
+					$guid  = (string) $item->guid;
+					$content = "";
+					if ( $e_content = $item->children("content", true) )
+						$content = (string) $e_content->encoded; 
+					$imgsrc = "";
+					if ( $media = $item->children("media", true) ) {
+						if ( $media->content->thumbnail ) {
+							$attributes = $media->content->thumbnail->attributes();
+							$imgsrc     = (string) $attributes['url'];
+							}
+						}
+					if ( $pdate > $now - MAX_TIME )
+						array_push($data,
+							array($pdate, $title, $descr, $imgsrc, $content, $elink, $servname, $serv));
+					}
+				}
+			}
+		}
+	
+	// sort news by date
+	usort($data, "pdate_sortcb");
+	
+	// store to avoid refreshing every time
+	save_cache($data);
+	}
+
+//
+//	print the news
+//
 echo "<div class='news'>\n";
 $msg_to_site = "Περισσότερα στο site...";		// jump to the site
 $msg_more_text = "Εμφάνιση όλου του κειμένου";	// view additional contents
@@ -246,12 +255,16 @@ foreach ( $data as $src ) {
 	}
 echo "</div>\n";
 
-// close html
+//
+//	close html
+//
 echo <<<'EOT'
 	<footer>
 	<table width="100%">
 	<tr><td>Copyleft (c) 2020, Nicholas Christopoulos
-	<td>
+	<td align=right>
+		  <a href="/">[root]</a>
+		  <a href="#top">[top]</a>
 	<tr><td>php-news-page Version 1.2 - License GPL v3+
 	<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Git project</b></a>
 	</table>
@@ -266,6 +279,7 @@ echo <<<'EOT'
 </script>
 </body>
 </html>
+
 EOT;
 ?>
 
