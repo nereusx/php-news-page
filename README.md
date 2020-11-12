@@ -3,7 +3,12 @@ RSS Reader in PHP.
 This is a web-page without per user options.
 
 The feeds are stored in `feeds.txt` file, in the form:
-title ; url
+```
+# comment
+title1 ; url1
+...
+titleN ; urlN
+```
 
 # demo
 https://nicholas-christopoulos.dev/news/
