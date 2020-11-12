@@ -6,7 +6,16 @@ error_reporting(E_ERROR | E_PARSE);
 define("SEC_PER_DAY", 86400);	// seconds per day
 define("MAX_TIME", SEC_PER_DAY * 2); // older post (max: 2 days old)
 define("INVALIDATE_CACHE", 60 * 30); // when to refresh cache (every 30mins on user request)
+//$cookie_name = "sources";
+//$cookie_value = "1";
+//setcookie($cookie_name, $cookie_value, time() + (SEC_PER_DAY * 365), "/news");
 $feeds = load_feeds();
+//if(!isset($_COOKIE[$cookie_name])) {
+//	  echo "Cookie named '" . $cookie_name . "' is not set!";
+//} else {
+//	  echo "Cookie '" . $cookie_name . "' is set!<br>";
+//	  echo "Value is: " . $_COOKIE[$cookie_name];
+//}
 
 // --- library ---
 function save_cache($data) {
@@ -62,10 +71,10 @@ echo <<<'EOT'
 	<head>
   	<meta charset="UTF-8">
   	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="keywords" content="Ειδήσεις, RSS">
+	<meta name="keywords" content="Ειδήσεις, RSS, php-news-page">
   	<meta name="author" content="Νικόλας Χριστόπουλος">
-  	<meta name="description" content="Nicholas Christopoulos Personal Site, Νικόλαος Χριστόπουλος, Προγραμματιστής / Αναλυτής, RSS Reader">
-  	<meta name="copyright" content="Copyright© 2000-2020, Free Software Foundation, Inc.">
+  	<meta name="description" content="RSS Reader">
+  	<meta name="copyright" content="Copyright© 2000-2020, Nicholas Christopoulos.">
   	<meta name="license" content="GNU FDL (https://www.gnu.org/licenses/fdl.html)">
 	<meta name="viewport" content="width=device-width" />
 
@@ -121,7 +130,8 @@ echo <<<'EOT'
 		}
 	</style>
 
-	<script type="text/javascript" src="/lib/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 	<script type="text/javascript">
 	  // hyphenation
 	  var Hyphenopoly = {
@@ -146,6 +156,7 @@ echo <<<'EOT'
 	function showExtraContent(id) {
 		$('#news-content-'+id).toggle();
 		}
+		
 	</script>
 		  
 	</head>
@@ -226,7 +237,7 @@ else {
 //	print the news
 //
 echo "<div class='news'>\n";
-$msg_to_site = "Περισσότερα στο site...";		// jump to the site
+$msg_to_site = "Μεταφορά στο site...";		// jump to the site
 $msg_more_text = "Εμφάνιση όλου του κειμένου";	// view additional contents
 $source_text = "Πηγή";							// the word 'source'
 $btn_gotosite = "...";
@@ -261,12 +272,12 @@ echo "</div>\n";
 echo <<<'EOT'
 	<footer>
 	<table width="100%">
-	<tr><td>Copyleft (c) 2020, Nicholas Christopoulos
+	<tr><td>Copyleft (c) 2020, <a href="mailto:nereus@freemail.gr">Nicholas Christopoulos</a>
 	<td align=right>
-		  <a href="/">[root]</a>
 		  <a href="#top">[top]</a>
+		  <a href="/">[root]</a>
 	<tr><td>php-news-page Version 1.2 - License GPL v3+
-	<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Git project</b></a>
+	<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Source code @github</b></a>
 	</table>
 	</footer>
 
