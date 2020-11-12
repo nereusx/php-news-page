@@ -1,13 +1,10 @@
-#	php-news-page, feeders flat database
-#
-#	title              ; RSS link
-# -----------------------------------------------------------------------------
 ThePressProject        ;http://thepressproject.gr/rss
 Εφημερίδα των Συντακτών;https://www.efsyn.gr/feed.xml
 Telesur (English)      ;https://www.telesurenglish.net/rss/world.xml
 Πρέζα TV               ;http://feeds.feedburner.com/blogspot/zDhNz
 Infowar                ;http://info-war.gr/feed/
 Αιχμή                  ;https://www.aixmi.gr/index.php/feed/
+Libre                  ;https://www.libre.gr/feed
 # KK
 902 (KKE)              ;https://www.902.gr/feed/recent
 Ημεροδρόμος            ;http://www.imerodromos.gr/feed/

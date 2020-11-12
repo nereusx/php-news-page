@@ -3,13 +3,13 @@
 // initialize
 setlocale(LC_ALL, "el_GR.UTF8");
 error_reporting(E_ERROR | E_PARSE);
-define("MAX_TIME", 86400 * 7);	// older post (max: 1 week)
-define("INVALIDATE_CACHE", 60 * 15); // when to refresh cache (every 15mins on user request)
+define("SEC_PER_DAY", 86400);	// seconds per day
+define("MAX_TIME", SEC_PER_DAY * 4); // older post (max: 4 days old)
+define("INVALIDATE_CACHE", 60 * 30); // when to refresh cache (every 30mins on user request)
 $feeds = load_feeds();
 $data  = array();
 
 // --- library ---
-
 function save_cache($data) {
 	$encodedString = json_encode($data);			// encode the array into a JSON string.
 	file_put_contents('cache.txt', $encodedString);	// save the JSON string to a text file.
@@ -132,7 +132,7 @@ echo <<<'EOT'
 	@media screen and (min-width: 40rem) { header { font-size: 120%; } }
 
 	footer {
-		font-family: Roboto, sans-serif;
+		font-family: Verdana, Roboto, sans-serif;
 		margin-top: 1rem;
 		border-top: 6px solid black;
 		}
@@ -154,7 +154,8 @@ echo <<<'EOT'
 		font-weight: 900;
 		}
 	a.news-more:link, a.news-more:active, a.news-more:visited { color: #cc6600; }
-		div.news-content { font-size: 1.0rem; border: 1px solid black; padding: 1rem; }
+	div.news-content { font-size: 1.0rem; border: 1px solid black; padding: 1rem; }
+	button { font-family: Verdana, Roboto, sans-serif; }
 	</style>
 
 	<script type="text/javascript" src="/lib/jquery.min.js"></script>
@@ -187,16 +188,27 @@ echo <<<'EOT'
 	</head>
 		  
 <body lang="el" class="hyp">
+
+<!-- Message: Please wait -->
+<div id="wait-msg" style="font-size:largest;">
+	<h1>Loading, please wait...</h1>
+</div>
+		  
+<!-- load & enable hyphenation -->
+<script src="/lib/Hyphenopoly_Loader.js"></script>
+
+<!-- the real body begins here -->
+<div id="body" style="display:none;">
 <header>
 <h1>NDC RSS READER</h1>
 </header>
-<!-- load & enable hyphenation -->
-<script src="/lib/Hyphenopoly_Loader.js"></script>
-		  
+
 EOT;
 
 // print the news
 echo "<div class='news'>\n";
+$msg_to_site = "Περισσότερα στο site...";
+$msg_more_text = "Εμφάνιση όλου του κειμένου";
 $id = 1;
 foreach ( $data as $src ) {
 	list($pdate, $title, $descr, $imgsrc, $content, $elink, $servname, $serv) = $src;
@@ -213,8 +225,8 @@ foreach ( $data as $src ) {
 	echo "\t\t<tr><td><b>Πηγή:</b> ", $servname, "\n";
 	echo "\t\t<td align='right'>\n";
 	if ( strlen($content) )
-		echo "\t\t<button title='Εμφάνιση όλου του κειμένου' onclick='showExtraContent(", $id ,")'>⇵</button>\n";
-	echo "\t\t<button title='Περισσότερα στο site...' onclick=\"window.open('", $elink, "','_blank');\">≫</button>\n";
+		echo "\t\t<button title='", $msg_more_text, "' onclick='showExtraContent(", $id ,")'>⇵</button>\n";
+	echo "\t\t<button title='", $msg_to_site, "' onclick=\"window.open('", $elink, "','_blank');\">≫</button>\n";
 	echo "\t</table>\n\t</div>\n";
 	echo "</div>\n";
 	$id = $id + 1;
@@ -222,10 +234,25 @@ foreach ( $data as $src ) {
 echo "</div>\n";
 
 // close html
-echo "<footer>\n";
-echo "\tCopyleft (c) 2020, Nicholas Christopoulos<br>\n\tVersion 1.2 - License GPL v3+<br>\n";
-echo "\t<a href='https://github.com/nereusx/php-news-page'>Project page: https://github.com/nereusx/php-news-page</a>\n";
-echo "</footer>\n";
-echo "</body>\n", "</html>\n";
+echo <<<'EOT'
+	<footer>
+	<table width="100%">
+	<tr><td>Copyleft (c) 2020, Nicholas Christopoulos
+	<td>
+	<tr><td>php-news-page Version 1.2 - License GPL v3+
+	<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Git project</b></a>
+	</table>
+	</footer>
+
+</div> <!-- body -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#body').show();
+		$('#wait-msg').hide();
+		});
+</script>
+</body>
+</html>
+EOT;
 ?>
 
