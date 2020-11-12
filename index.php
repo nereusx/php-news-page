@@ -130,7 +130,7 @@ echo <<<'EOT'
 		}
 	</style>
 
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/lib/jquery.min.js"></script>
 
 	<script type="text/javascript">
 	  // hyphenation
