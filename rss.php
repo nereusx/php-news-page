@@ -1,7 +1,7 @@
 <?php
 
 /*
- * php-news-page, ver 1.4
+ * php-news-page, ver 1.5
  * Copyright (C) 2020, Nicholas Christopoulos (nereus@freemail.gr)
  * LICENSE: GPL v3 or newer
  */
@@ -12,6 +12,7 @@ error_reporting(E_ERROR | E_PARSE);
 define("SEC_PER_DAY", 86400);	// seconds per day
 define("MAX_TIME", SEC_PER_DAY * 2); // older post (max: 2 days old)
 define("INVALIDATE_CACHE", 60 * 30); // when to refresh cache (every 30mins on user request)
+define("MAX_DESC", 750);	// maximum length of description
 
 // --- library ---
 function save_cache($data) {
@@ -65,7 +66,7 @@ else {
 	foreach ( $feeds as $src ) {
 		list($servname, $serv) = $src;
 		if ( strlen($serv) ) {
-			$opts = array('http'=>array('header' => "User-Agent: NDC_RSS_READER/1.4\r\n")); 
+			$opts = array('http'=>array('header' => "User-Agent: NDC_RSS_READER/1.5\r\n")); 
 			$context = stream_context_create($opts);
 			$html = file_get_contents($serv, false, $context);
 			$feed = simplexml_load_string($html);
@@ -84,6 +85,13 @@ else {
 					$content = "";
 					if ( $e_content = $item->children("content", true) )
 						$content = (string) $e_content->encoded; 
+					else if ( strlen($descr) > MAX_DESC ) {
+						$p = strpos($descr, ".", MAX_DESC); // note: strrpos is buggy (7.4.11)
+						if ( $p !== false ) {
+							$content = substr($descr, $p + 1);
+							$descr = substr($descr, 0, $p) . ". [<font color='#007700'><b>&gt;&gt;</b></font>]";
+							}
+						}
 					$imgsrc = "";
 					if ( $media = $item->children("media", true) ) {
 						if ( $media->content->thumbnail ) {
