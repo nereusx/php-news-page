@@ -35,7 +35,6 @@ echo <<<'EOT'
   	<title>NDC RSS READER</title>
   
 	<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;900&family=Roboto:ital,wght@0,400;0,900;1,700&display=swap" rel="stylesheet">
-	<link href="/fonts/fonts.css" rel="stylesheet">
   
   	<style>
   	header {
@@ -51,7 +50,6 @@ echo <<<'EOT'
 		font-weight: 900;
 		}
 	@media screen and (min-width: 40rem) { header { font-size: 120%; } }
-
 	footer {
 		font-family: Verdana, Roboto, sans-serif;
 		margin-top: 1rem;
@@ -87,7 +85,6 @@ echo <<<'EOT'
 	</style>
 
 	<script src="/lib/jquery.min.js"></script>
-
 	<script type="text/javascript">
 	  // hyphenation
 	  var Hyphenopoly = {
@@ -115,55 +112,30 @@ echo <<<'EOT'
 		}
 	
 	function showExtraContent(id) {
-		$('#news-content-'+id).toggle();
-		}
-		
-	function ajshow(elem, str) {
-		if ( str.length == 0 ) {
-			document.getElementById(elem).innerHTML = "";
-			return;
-			}
-		else {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.onreadystatechange = function() {
-				if ( this.readyState == 4 && this.status == 200 )
-					document.getElementById(elem).innerHTML = this.responseText;
-				};
-			xmlhttp.open("GET", str, true);
-			xmlhttp.send();
-			}
+		$('#news-content-'+id).toggle(); 
 		}
 	</script>	  
 </head>
 		  
 <body lang="el" class="hyp">
-
-<!-- load & enable hyphenation -->
-<script src="/lib/Hyphenopoly_Loader.js"></script>
-
-<!-- the real body begins here -->
+<script src="/lib/Hyphenopoly_Loader.js"></script> <!-- load & enable hyphenation -->
 <header>
-<h1>NDC RSS READER</h1>
+	<h1>NDC RSS READER</h1>
 </header>
-		  
 <div id='wait-box' class='wait-box'>
-	Loading... Please wait...
+	Loading. Please wait...
 </div>
-
 <a name="top"></a>
-
-<div id='news' class='news'>
-</div>
-
+<div id='news' class='news'></div>  
 <footer>
-<table width="100%">
-<tr><td>Copyleft (c) 2020, <a href="mailto:nereus@freemail.gr">Nicholas Christopoulos</a>
-<td align=right>
-	  <a href="#top">[top]</a>
-	  <a href="/">[root]</a>
-<tr><td>php-news-page Version 1.3 - License GPL v3+
-<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Source code @github</b></a>
-</table>
+	<table width="100%">
+	<tr><td>Copyleft (c) 2020, <a href="mailto:nereus@freemail.gr">Nicholas Christopoulos</a>
+	<td align=right>
+		  <a href="#top">[top]</a>
+		  <a href="/">[root]</a>
+	<tr><td>php-news-page Version 1.3 - License GPL v3+
+	<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Source code @github</b></a>
+	</table>
 </footer>
 	  
 <script type="text/javascript">
