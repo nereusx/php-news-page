@@ -1,4 +1,9 @@
 <?php
+/*
+** php-news-page, ver 1.2
+** Copyright (C) 2020, Nicholas Christopoulos (nereus@freemail.gr)
+** LICENSE: GPL v3 or newer
+*/
 
 // initialize
 setlocale(LC_ALL, "el_GR.UTF8");
@@ -6,16 +11,7 @@ error_reporting(E_ERROR | E_PARSE);
 define("SEC_PER_DAY", 86400);	// seconds per day
 define("MAX_TIME", SEC_PER_DAY * 2); // older post (max: 2 days old)
 define("INVALIDATE_CACHE", 60 * 30); // when to refresh cache (every 30mins on user request)
-//$cookie_name = "sources";
-//$cookie_value = "1";
-//setcookie($cookie_name, $cookie_value, time() + (SEC_PER_DAY * 365), "/news");
 $feeds = load_feeds();
-//if(!isset($_COOKIE[$cookie_name])) {
-//	  echo "Cookie named '" . $cookie_name . "' is not set!";
-//} else {
-//	  echo "Cookie '" . $cookie_name . "' is set!<br>";
-//	  echo "Value is: " . $_COOKIE[$cookie_name];
-//}
 
 // --- library ---
 function save_cache($data) {
