@@ -1,7 +1,7 @@
 <?php
 
 /*
- * php-news-page, ver 1.3
+ * php-news-page, ver 1.4
  * Copyright (C) 2020, Nicholas Christopoulos (nereus@freemail.gr)
  * LICENSE: GPL v3 or newer
  */
@@ -65,7 +65,10 @@ else {
 	foreach ( $feeds as $src ) {
 		list($servname, $serv) = $src;
 		if ( strlen($serv) ) {
-			$feed = simplexml_load_file($serv);
+			$opts = array('http'=>array('header' => "User-Agent: NDC_RSS_READER/1.4\r\n")); 
+			$context = stream_context_create($opts);
+			$html = file_get_contents($serv, false, $context);
+			$feed = simplexml_load_string($html);
 		
 			if ( $feed === FALSE ) {
 				// handle error here

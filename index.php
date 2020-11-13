@@ -1,7 +1,7 @@
 <?php
 
 /*
- * php-news-page, ver 1.3
+ * php-news-page, ver 1.4
  * Copyright (C) 2020, Nicholas Christopoulos (nereus@freemail.gr)
  * LICENSE: GPL v3 or newer
  */
@@ -133,7 +133,7 @@ echo <<<'EOT'
 	<td align=right>
 		  <a href="#top">[top]</a>
 		  <a href="/">[root]</a>
-	<tr><td>php-news-page Version 1.3 - License GPL v3+
+	<tr><td>php-news-page Version 1.4 - License GPL v3+
 	<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Source code @github</b></a>
 	</table>
 </footer>
