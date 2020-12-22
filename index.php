@@ -1,7 +1,7 @@
 <?php
 
 /*
- * php-news-page, ver 1.5
+ * php-news-page, ver 1.6
  * Copyright (C) 2020, Nicholas Christopoulos (nereus@freemail.gr)
  * LICENSE: GPL v3 or newer
  */
@@ -34,30 +34,26 @@ echo <<<'EOT'
 
   	<title>NDC RSS READER</title>
   
-	<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;900&family=Roboto:ital,wght@0,400;0,900;1,700&display=swap" rel="stylesheet">
-  
   	<style>
+	body { font-family: Roboto, sans-serif; }
+	h1, h2, h3, h4 { font-family: serif; font-weight: 700; }
   	header {
-		font-family: Roboto Slab, serif;
+		font-family: serif;
 		font-weight: 900;
 		text-align: center;
 		border-top: 6px solid black;
 		border-bottom: 6px solid black;
 		margin-bottom: 1rem;
 		}
-  	header h1 {
-		font-family: Roboto Slab, serif;
-		font-weight: 900;
-		}
+  	header h1 { font-weight: 900; }
 	@media screen and (min-width: 40rem) { header { font-size: 120%; } }
 	footer {
-		font-family: Roboto, sans-serif;
-		font-size: 90%;
+		font-family: Verdana, sans-serif;
+		font-size: 0.9rem;
 		margin-top: 1rem;
 		border-top: 6px solid black;
 		}
 	div.news {
-		font-family: Roboto, sans-serif;
 		column-count: 1;
 		column-gap: 40px;
 		column-rule: 4px double #ff00ff;
@@ -65,18 +61,13 @@ echo <<<'EOT'
 	@media screen and (min-width:   40rem) { div.news { column-count: 2; } }
 	@media screen and (min-width:   80rem) { div.news { column-count: 3; } }
 	div.news-pdate {
-		font-family: Roboto, sans-serif;
+		font-family: Verdana, sans-serif;
 		font-size: 0.8rem;
 		color: #666666;
-		}
-	a.news-more {
-		font-family: Roboto, sans-serif;
-		font-weight: 900;
 		}
 	a:link, a:active, a:visited { color: blue; }
 	a.news-more:link, a.news-more:active, a.news-more:visited { color: #cc6600; }
 	div.news-content { font-size: 1.0rem; border: 1px solid black; padding: 1rem; }
-	button { font-family: Roboto, sans-serif; }
 	div.wait-box {
 		margin: 5%;
 		border: 6px solid black;
@@ -137,7 +128,7 @@ echo <<<'EOT'
 	<td align=right>
 		  <a href="#top">[top]</a>
 		  <a href="/">[root]</a>
-	<tr><td>php-news-page Version 1.5 - License GPL v3+
+	<tr><td>php-news-page Version 1.6 - License GPL v3+
 	<td align=right><a href='https://github.com/nereusx/php-news-page'><b>Source code @github</b></a>
 	</table>
 </footer>

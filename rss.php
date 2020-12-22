@@ -1,7 +1,7 @@
 <?php
 
 /*
- * php-news-page, ver 1.5
+ * php-news-page, ver 1.6
  * Copyright (C) 2020, Nicholas Christopoulos (nereus@freemail.gr)
  * LICENSE: GPL v3 or newer
  */
@@ -11,7 +11,7 @@ setlocale(LC_ALL, "el_GR.UTF8");
 error_reporting(E_ERROR | E_PARSE);
 define("SEC_PER_DAY", 86400);	// seconds per day
 define("MAX_TIME", SEC_PER_DAY * 2); // older post (max: 2 days old)
-define("INVALIDATE_CACHE", 60 * 30); // when to refresh cache (every 30mins on user request)
+define("INVALIDATE_CACHE", 60 * 60); // when to refresh cache (every 60mins on user request)
 define("MAX_DESC", 750);	// maximum length of description
 
 // --- library ---
@@ -54,6 +54,21 @@ function to_date($d) {
 	return strftime("%A %d %b %Y, %T %Z", $d);
 	}
 
+function badwolf($atext) {
+	$badwords = array();
+	if ( file_exists("badwords.txt") )
+		$badwords = file("badwords.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+	foreach ( $atext as $s ) {
+		$words = preg_split("/[\s,]+/", $s);
+		foreach ( $badwords as $b) {
+			if ( in_array($b, $words) )
+				return 1;
+			}
+		}
+	return 0;
+	}
+
 // --- main ---
 
 $feeds = load_feeds();
@@ -66,7 +81,7 @@ else {
 	foreach ( $feeds as $src ) {
 		list($servname, $serv) = $src;
 		if ( strlen($serv) ) {
-			$opts = array('http'=>array('header' => "User-Agent: NDC_RSS_READER/1.5\r\n")); 
+			$opts = array('http'=>array('header' => "User-Agent: NDC_RSS_READER/1.6\r\n")); 
 			$context = stream_context_create($opts);
 			$html = file_get_contents($serv, false, $context);
 			$feed = simplexml_load_string($html);
@@ -99,9 +114,12 @@ else {
 							$imgsrc     = (string) $attributes['url'];
 							}
 						}
-					if ( $pdate > $now - MAX_TIME )
-						array_push($data,
-							array($pdate, $title, $descr, $imgsrc, $content, $elink, $servname, $serv));
+					if ( $pdate > $now - MAX_TIME ) {
+						if ( !badwolf(array($title, $descr)) ) {
+							array_push($data,
+								array($pdate, $title, $descr, $imgsrc, $content, $elink, $servname, $serv));
+							}
+						}
 					}
 				}
 			}
@@ -130,7 +148,7 @@ foreach ( $data as $src ) {
 	echo "\t<div class='news-pdate'>", to_date($pdate), "</div>\n<p>\n";
 	echo "\t<div class='news-text'>\n", $descr, "\n\t</div>\n";
 	if ( strlen($imgsrc) )
-		echo "\t<div><img src='", $imgsrc, "' alt=''/></div>\n";
+		echo "\t<div><img src='", $imgsrc, "' alt='' style='width:95%;'/></div>\n";
 	if ( strlen($content) )
 		echo "\t<div hidden id='news-content-", $id, "' class='news-content'>\n", $content, "\n\t</div>\n";
 	echo "\t<div class='news-footer'>\n";

@@ -1,25 +1,27 @@
 ThePressProject        ;http://thepressproject.gr/rss
-Εφημερίδα των Συντακτών;https://www.efsyn.gr/feed.xml
-Telesur (English)      ;https://www.telesurenglish.net/rss/world.xml
+Εφημερίδα των Συντακτών;http://www.efsyn.gr/feed.xml
+Telesur (English)      ;http://www.telesurenglish.net/rss/world.xml
 Πρέζα TV               ;http://feeds.feedburner.com/blogspot/zDhNz
 Infowar                ;http://info-war.gr/feed/
-Αιχμή                  ;https://www.aixmi.gr/index.php/feed/
-Libre                  ;https://www.libre.gr/feed
-# KK
-902 (KKE)              ;https://www.902.gr/feed/recent
+Libre                  ;http://www.libre.gr/feed
+## KK
+902 (KKE)              ;http://www.902.gr/feed/recent
 Ημεροδρόμος            ;http://www.imerodromos.gr/feed/
-# A
-OmniaTV                ;https://omniatv.com/feed
-Αλέρτα (Α)             ;https://alerta.gr/rss
-Indymedia Διεθνή       ;https://athens.indymedia.org/feed/2/
-Indymedia Βιβλιοθήκη   ;https://athens.indymedia.org/feed/7/
-# persons
-Λ. Βατικιώτης          ;https://leonidasvatikiotis.wordpress.com/feed/
-#John Pilger (English) ;http://feeds.feedburner.com/johnpilger
-# science
-Φυσικοί και Φυσική     ;https://physicsgg.me/feed/
+## A
+OmniaTV                ;http://omniatv.com/feed
+Αλέρτα (Α)             ;http://alerta.gr/rss
+Indymedia Διεθνή       ;http://athens.indymedia.org/feed/2/
+Indymedia Βιβλιοθήκη   ;http://athens.indymedia.org/feed/7/
+Indymedia Τοπικά       ;http://athens.indymedia.org/feed/1/
+Indymedia Ανακοινώσεις ;http://athens.indymedia.org/feed/11/
+Ανατροπή News          ;http://www.anatropinews.gr/feed
+## persons
+Λ. Βατικιώτης          ;http://leonidasvatikiotis.wordpress.com/feed/
+#John Pilger (English)  ;http://feeds.feedburner.com/johnpilger
+## science
+Φυσικοί και Φυσική     ;http://physicsgg.me/feed/
 Φυσική για όλους       ;http://physics4u.gr/blog/feed/
 Βιολογία για όλους     ;http://www.biology4u.gr/?feed=rss2
-Science News (English) ;https://www.sciencenews.org/feed/
-# FLOS
+Science News (English) ;http://www.sciencenews.org/feed/
+## FLOS
 #TuxMachines            ;http://www.tuxmachines.org/rss.xml
