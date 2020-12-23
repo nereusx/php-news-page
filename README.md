@@ -5,6 +5,7 @@ This is a web-page without per user options.
 * Tiny size
 * Feeds in plain text file
 * Filters on words of plain text file
+* Cache
 
 The feeds are stored in `feeds.txt` file, in the form:
 ```
