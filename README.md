@@ -16,6 +16,8 @@ titleN ; urlN
 ```
 
 The bad-words are stored in `badwords.txt` file, one word per line.
+If title or description has any bad word then it is removed from the page.
+This is how I avoid sports and life-style news.
 
 # demo
 https://nicholas-christopoulos.dev/news/
