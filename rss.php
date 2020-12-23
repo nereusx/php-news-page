@@ -25,13 +25,13 @@ function load_cache() {
 	return json_decode($fileContents, true);		// convert the JSON string back into an array.
 	}
 
-function valid_cache() {
+function valid_cache() {	// returns true if does not need to refresh cache
 	if ( file_exists('cache.txt') )
 		return (time() - filectime('cache.txt') < INVALIDATE_CACHE);
 	return false;
 	}
 
-function load_feeds() {
+function load_feeds() {	// loads 'feeds.txt' and returns an array with the feeds
 	$feeds = array();
 	$f = fopen("feeds.txt", "r") or die("Unable to open feeds file!");
 	while ( !feof($f) ) {
@@ -46,18 +46,16 @@ function load_feeds() {
 	return $feeds;
 	}
 
-function pdate_sortcb($a, $b) {
+function pdate_sortcb($a, $b) {	// used to sort news by date
 	return $a[0] < $b[0];
 	}
 
-function to_date($d) {
+function to_date($d) {	// date format to display
 	return strftime("%A %d %b %Y, %T %Z", $d);
 	}
 
-function badwolf($atext) {
-	$badwords = array();
-	if ( file_exists("badwords.txt") )
-		$badwords = file("badwords.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+function badwolf($atext) {	// filtering news; returns true if strings in $atext array does not contain any bad word
+	global $badwords;
 
 	foreach ( $atext as $s ) {
 		$words = preg_split("/[\s,]+/", $s);
@@ -70,8 +68,11 @@ function badwolf($atext) {
 	}
 
 // --- main ---
-
+$badwords = array();
+if ( file_exists("badwords.txt") )
+	$badwords = file("badwords.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 $feeds = load_feeds();
+
 $data = array();
 if ( valid_cache() ) // too soon ?
 	$data = load_cache();
@@ -132,15 +133,13 @@ else {
 	save_cache($data);
 	}
 
-//
-//	print the news
-//
-$msg_to_site = "Μεταφορά στο site...";		// jump to the site
-$msg_more_text = "Εμφάνιση όλου του κειμένου";	// view additional contents
-$source_text = "Πηγή";							// the word 'source'
-$btn_gotosite = "...";
-$btn_viewcontent = "⇵";
-$id = 1;
+// --- print ---
+$msg_to_site = "Μεταφορά στο site...";		// text: jump to the news-site
+$msg_more_text = "Εμφάνιση όλου του κειμένου";	// text: view additional contents
+$source_text = "Πηγή";							// text: the word 'source'
+$btn_gotosite = "...";		// button text, go-to-site
+$btn_viewcontent = "⇵";		// button text, view the rest description
+$id = 1;	// just a unique ID per article
 foreach ( $data as $src ) {
 	list($pdate, $title, $descr, $imgsrc, $content, $elink, $servname, $serv) = $src;
 	echo "<div class='news-item'>\n";
